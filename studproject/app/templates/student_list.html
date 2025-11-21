@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список студентов</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        .student-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .buttons { margin-top: 10px; }
+        .btn {
+            padding: 5px 10px;
+            margin-right: 10px;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+        .edit-btn { background: #3498db; color: white; }
+        .session-btn { background: #e74c3c; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Список студентов и их оценок</h1>
+
+    {% for student in students %}
+    <div class="student-card">
+        <h3>👤 {{ student.name }}</h3>
+        <p><strong>Группа:</strong> {{ student.group }}</p>
+
+        {% if student.session %}
+            <p><strong>Оценки:</strong></p>
+            <ul>
+                <li>Математика: {{ student.session.math }}</li>
+                <li>Физика: {{ student.session.physics }}</li>
+                <li>Программирование: {{ student.session.programming }}</li>
+            </ul>
+        {% else %}
+            <p style="color: #e74c3c;">⚠ Оценки не добавлены</p>
+        {% endif %}
+
+        <div class="buttons">
+            <a href="{% url 'edit_student' student.id %}" class="btn edit-btn">Редактировать</a>
+            <a href="{% url 'edit_session' student.id %}" class="btn session-btn">Редактировать оценки</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>Нет студентов</p>
+    {% endfor %}
+</body>
+</html>
